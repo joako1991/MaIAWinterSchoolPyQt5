@@ -18,3 +18,8 @@ know quickly if that example works for you or not.
 
 The main idea of this repository is give you the most basic templates you can
 have for each application, and your project will make use of several of them.
+
+# Requirements
+Python3
+OpenCV for Python3
+PyQt5 for Python3
