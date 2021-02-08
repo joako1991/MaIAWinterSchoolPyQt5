@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
         self.main_layout = QHBoxLayout()
 
         self.initialize_widget()
-        self.setWindowTitle("This is my buttons example")
+        self.setWindowTitle("This is my template example")
 
     def initialize_widget(self):
         '''
