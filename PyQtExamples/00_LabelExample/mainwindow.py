@@ -77,6 +77,11 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(main_scroll)
 
     def add_label(self):
+        '''
+        This function add two labels to the MainWindow layout. These two
+        labels have different font sizes, and they are placed one after the other
+        one. We do not do anything else in this example.
+        '''
         myLabel = QLabel("This text is done by a label", self)
         f = QFont("Arial", 20, QFont.Bold);
         myLabel.setFont(f);
