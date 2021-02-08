@@ -19,6 +19,9 @@ know quickly if that example works for you or not.
 The main idea of this repository is give you the most basic templates you can
 have for each application, and your project will make use of several of them.
 
+In order to execute any of these examples, we move to the folder that holds the
+example we want, and we execute: ```python3 ./main.py```
+
 # Requirements
 * Python3
 * OpenCV for Python3
