@@ -34,6 +34,7 @@ class ImageWidget(QWidget):
         self.desired_width = 480
         self.showed_image = None
         self.clearBuffers()
+        self.scaling_factor = 1
 
         self.grayscale_colortable = np.array([qRgb(i, i, i) for i in range(256)])
 
@@ -50,10 +51,10 @@ class ImageWidget(QWidget):
         if new_image.size:
             # We compute the required scaling factor, for the desired width we
             # want to set the in image.
-            scaling_factor = self.desired_width / new_image.shape[1]
+            self.scaling_factor = self.desired_width / new_image.shape[1]
             # We resize the image to have the desired width, and keep the
             # aspect ratio
-            scaled_image = cv2.resize(new_image, new_image.shape[0:2], scaling_factor, scaling_factor, interpolation=cv2.INTER_LINEAR)
+            scaled_image = cv2.resize(new_image, new_image.shape[0:2], self.scaling_factor, self.scaling_factor, interpolation=cv2.INTER_LINEAR)
 
             # We set the Widget size, so it does not take an unlimited space in
             # the MainWindow.
@@ -102,6 +103,17 @@ class ImageWidget(QWidget):
         '''
         self.showed_image = QImage()
         self.repaint()
+
+    def mousePressEvent(self, event):
+        '''
+        Overloaded function from QtWidget. Whenver we click on the image,
+        this function will be called. In this function we can retrieve the coordinates
+        of the pixel touched with the mouse.
+        '''
+        # NOTE: X corresponds to the columns, and Y corresponds to the row of the image
+        row = int(event.pos().y() / self.scaling_factor)
+        column = int(event.pos().x() / self.scaling_factor)
+        print("You have pressed the pixel: (row, column) = ({}, {})".format(row, column))
 
     def paintEvent(self, event):
         '''
