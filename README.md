@@ -26,3 +26,4 @@ example we want, and we execute: ```python3 ./main.py```
 * Python3
 * OpenCV for Python3
 * PyQt5 for Python3
+* NumPy for Python3
