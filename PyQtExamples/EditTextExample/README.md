@@ -9,5 +9,9 @@ search a file, to enter the file name we want to use when we write a file
 in disk, or when we want to grab some information from the user to create
 a user database, for instance.
 
+This object can be used also to only show some text, that we loaded from a file,
+for instance, and the user cannot modify it. This can be done if we set the QLineEdit
+object as read-only.
+
 # Application screenshot
 ![app screenshot](/PyQtExamples/EditTextExample/images/lineEditExample.png)
