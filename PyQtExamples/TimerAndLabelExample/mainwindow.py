@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
         # of time, using the timer.
         self.label = QLabel('{}'.format(self.counter))
         f = QFont("Arial", 20, QFont.Bold);
-        self.label.setFont(f);
+        self.label.setFont(f)
 
         self.right_layout.addWidget(self.label)
 
