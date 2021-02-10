@@ -72,6 +72,7 @@ class MainWindow(QMainWindow):
         main_widget = QWidget()
 
         left_widget.setLayout(self.left_layout)
+        self.right_layout.addStretch(1)
         right_widget.setLayout(self.right_layout)
 
         self.main_layout.addWidget(left_widget)
