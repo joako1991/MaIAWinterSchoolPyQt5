@@ -52,18 +52,16 @@ class ImageWidget(QWidget):
             # We compute the required scaling factor, for the desired width we
             # want to set the in image.
             self.scaling_factor = self.desired_width / new_image.shape[1]
+            dim = (self.desired_width, int(new_image.shape[0] * self.scaling_factor))
             # We resize the image to have the desired width, and keep the
             # aspect ratio
-            scaled_image = cv2.resize(new_image, new_image.shape[0:2], self.scaling_factor, self.scaling_factor, interpolation=cv2.INTER_LINEAR)
+            scaled_image = cv2.resize(new_image, dim, interpolation=cv2.INTER_LINEAR)
 
             # We set the Widget size, so it does not take an unlimited space in
             # the MainWindow.
             self.setFixedSize(
-                scaled_image.shape[1],
-                scaled_image.shape[0])
-
-            height = scaled_image.shape[0]
-            width =  scaled_image.shape[1]
+                dim[0],
+                dim[1])
 
             if len(scaled_image.shape) == 2:
                 # We create a QImage as an indexed image to show the grayscale
@@ -71,23 +69,23 @@ class ImageWidget(QWidget):
                 # too to be grayscale.
                 self.showed_image = QImage(
                     scaled_image,
-                    width,
-                    height,
-                    width,
+                    dim[0],
+                    dim[1],
+                    dim[0],
                     QImage.Format_Indexed8)
                 self.showed_image.setColorTable(self.grayscale_colortable)
             else:
                 # If it is a color image, we convert from BGR (format in OpenCV),
                 # to RGB. If a RGB image want to be provided, this this line must
                 # be erased.
-                scaled_image = cv2.cvtColor(new_image, cv2.COLOR_BGR2RGB)
+                scaled_image = cv2.cvtColor(scaled_image, cv2.COLOR_BGR2RGB)
 
                 # We convert the input image into a QImage, to be shown by Qt
                 self.showed_image = QImage(
                     scaled_image,
-                    width,
-                    height,
-                    3*width,
+                    dim[0],
+                    dim[1],
+                    3*dim[0],
                     QImage.Format_RGB888)
 
             # We schedule a repaint, in order to update what we show in the widget
@@ -110,7 +108,7 @@ class ImageWidget(QWidget):
         this function will be called. In this function we can retrieve the coordinates
         of the pixel touched with the mouse.
         '''
-        # NOTE: X corresponds to the columns, and Y corresponds to the row of the image
+        # NOTE: X corresponds to the columns, and Y corresponds to the row of the ORIGINAL image
         row = int(event.pos().y() / self.scaling_factor)
         column = int(event.pos().x() / self.scaling_factor)
         print("You have pressed the pixel: (row, column) = ({}, {})".format(row, column))
