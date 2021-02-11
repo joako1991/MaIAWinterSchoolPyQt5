@@ -31,7 +31,14 @@ def main():
     # In both cases, we pass the IMREAD_ANYDEPTH flag, which allows us to support
     # even images coded in 16-bits, or more.
     gray_img = cv2.imread(color_image_filepath, cv2.IMREAD_GRAYSCALE | cv2.IMREAD_ANYDEPTH)
+    if gray_img is None:
+        print("We couldn't load the image located at {}".format(color_image_filepath))
+        return
+
     color_img = cv2.imread(color_image_filepath, cv2.IMREAD_COLOR | cv2.IMREAD_ANYDEPTH)
+    if color_img is None:
+        print("We couldn't load the image located at {}".format(color_image_filepath))
+        return
 
     # We print in the terminal both images shape. The gray level image, since it
     # has 1 channel, the shape property contains 2 elements: rows and columns.

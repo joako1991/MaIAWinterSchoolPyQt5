@@ -12,6 +12,11 @@ def main():
     # a color image
     color_image_filepath = os.path.join(root_dir, 'images', 'Lenna.png')
     color_img = cv2.imread(color_image_filepath, cv2.IMREAD_COLOR | cv2.IMREAD_ANYDEPTH)
+    color_img = cv2.imread(color_image_filepath, cv2.IMREAD_COLOR | cv2.IMREAD_ANYDEPTH)
+    if color_img is None:
+        print("We couldn't load the image located at {}".format(color_image_filepath))
+        return
+
     # We show the color image shape: row, columns, channels
     print("Color image shape: {}".format(color_img.shape))
 
