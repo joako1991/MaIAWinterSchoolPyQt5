@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import \
     QHBoxLayout, \
     QMainWindow, \
-    QTextEdit, \
     QScrollArea, \
+    QTextEdit, \
     QVBoxLayout, \
     QWidget
 
