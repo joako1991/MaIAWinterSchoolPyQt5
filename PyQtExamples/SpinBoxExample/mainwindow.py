@@ -148,7 +148,7 @@ class MainWindow(QMainWindow):
         doubleTempWidget.setLayout(double_hor_layout)
 
         # We add the temporal widget to the right layout
-        self.right_layout.addWidget(doubleTempWidget)        
+        self.right_layout.addWidget(doubleTempWidget)
 
 
     def on_spinbox_value_changed(self, value):
