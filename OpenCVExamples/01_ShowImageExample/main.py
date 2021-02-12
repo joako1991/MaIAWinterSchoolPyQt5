@@ -31,11 +31,13 @@ def main():
     # In both cases, we pass the IMREAD_ANYDEPTH flag, which allows us to support
     # even images coded in 16-bits, or more.
     gray_img = cv2.imread(color_image_filepath, cv2.IMREAD_GRAYSCALE | cv2.IMREAD_ANYDEPTH)
+    # We check if imread was able to find and open the image.
     if gray_img is None:
         print("We couldn't load the image located at {}".format(color_image_filepath))
         return
 
     color_img = cv2.imread(color_image_filepath, cv2.IMREAD_COLOR | cv2.IMREAD_ANYDEPTH)
+    # We check if imread was able to find and open the image.
     if color_img is None:
         print("We couldn't load the image located at {}".format(color_image_filepath))
         return
