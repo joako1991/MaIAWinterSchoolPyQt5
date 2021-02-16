@@ -1,162 +1,94 @@
 import cv2
 import os
 
-import time
-
 import numpy as np
 from colors import hsv_label_colors
+from particle import Particle
 
 root_dir = os.path.dirname(os.path.realpath(__file__))
 
-class Particle(object):
-    def __init__(self, id, particle, img_size):
-        self.particle_id = id
-        self.particle_points = np.array(particle)
-        self.image_size = img_size
-        self.area = 0
-        self.ratio = 0
-        self.height = 0
-        self.width = 0
-        self.mass_center_row = 0
-        self.mass_center_col = 0
-        self.enclosing_rect = [(0,0), (0,0)]
-        self.moment_0_0 = 0
-        self.moment_1_0 = 0
-        self.moment_0_1 = 0
-        self.moment_1_1 = 0
-        self.moment_2_0 = 0
-        self.moment_0_2 = 0
-        self.ellipse = [0,0,0]
-        self.elongation = 0
-
-        self.compute_particle_params()
-
-    def compute_particle_params(self):
-        if self.particle_points.size:
-            self.area = self.particle_points.shape[1]
-            self.ratio = self.area / (self.image_size[0] * self.image_size[1])
-
-            mass_center = self.get_particle_mass_center()
-            self.mass_center_row = mass_center[0]
-            self.mass_center_col = mass_center[1]
-
-            self.enclosing_rect = self.get_enclosing_box()
-
-            self.width = self.enclosing_rect[1][1] - self.enclosing_rect[0][1]
-            self.height = self.enclosing_rect[1][0] - self.enclosing_rect[0][0]
-
-            self.moment_0_0 = self.get_moment(0, 0)
-            self.moment_1_0 = self.get_moment(1, 0)
-            self.moment_0_1 = self.get_moment(0, 1)
-            self.moment_1_1 = self.get_moment(1, 1)
-            self.moment_2_0 = self.get_moment(2, 0)
-            self.moment_0_2 = self.get_moment(0, 2)
-            self.gravity_center_row = self.moment_1_0 / self.moment_0_0
-            self.gravity_center_col = self.moment_0_1 / self.moment_0_0
-            self.ellipse = self.get_ellipse_params(self.moment_0_0, self.moment_2_0, self.moment_0_2, self.moment_1_1, self.gravity_center_row, self.gravity_center_col)
-
-            short_axis = self.ellipse[2]
-            # We assign a tiny value to avoid the division by zero
-            if short_axis == 0:
-                short_axis = 0.01
-            self.elongation = np.divide(self.ellipse[1], short_axis)**2
-
-    def print_particle_params(self):
-        print("Particle ID: {}".format(self.particle_id))
-        print("Particle area: {}".format(self.area))
-        print("Particle ratio: {}".format(self.ratio))
-
-        print("Particle width: {}".format(self.width))
-        print("Particle height: {}".format(self.height))
-
-        print("Particle mass center row: {}".format(self.mass_center_row))
-        print("Particle mass center columns: {}".format(self.mass_center_col))
-
-        print("Gravity center row: {}".format(self.gravity_center_row))
-        print("Gravity center row: {}".format(self.gravity_center_col))
-        print("Particle enclosing rectangle [(minRow, minCol), (maxRow, maxCol)]: {}".format(self.enclosing_rect))
-
-        print("Particle moment 0,0: {}".format(self.moment_0_0))
-        print("Particle moment 1,0: {}".format(self.moment_1_0))
-        print("Particle moment 0,1: {}".format(self.moment_0_1))
-        print("Particle moment 1,1: {}".format(self.moment_1_1))
-        print("Particle moment 2,0: {}".format(self.moment_2_0))
-        print("Particle moment 0,2: {}".format(self.moment_0_2))
-        print("Ellipse params (theta, l, w): ({}, {}, {})".format(self.ellipse[0] * 180.0 / np.pi, self.ellipse[1], self.ellipse[2]))
-        print("Elongation: {}".format(self.elongation))
-
-    def get_particle_mass_center(self):
-        if self.particle_points.size:
-            N = self.particle_points.shape[1]
-            row_avg = np.sum(self.particle_points[0,:]) / float(N)
-            col_avg = np.sum(self.particle_points[1,:]) / float(N)
-
-            return (row_avg, col_avg)
-        else:
-            return (0,0)
-
-    def get_enclosing_box(self):
-        max_row = np.amax(self.particle_points[0,:])
-        min_row = np.amin(self.particle_points[0,:])
-
-        max_col = np.amax(self.particle_points[1,:])
-        min_col = np.amin(self.particle_points[1,:])
-        return [(min_row, min_col), (max_row, max_col)]
-
-    def get_moment(self, p, q):
-        if self.particle_points.size:
-            rows = self.particle_points[0,:]
-            cols = self.particle_points[1,:]
-
-            rows_grid_p = np.power(rows, p)
-            cols_grid_q = np.power(cols, q)
-
-            return np.sum(np.multiply(rows_grid_p, cols_grid_q))
-        else:
-            return 0
-
-    def get_ellipse_params(self, m_0_0, m_2_0, m_0_2, m_1_1, gravity_center_row, gravity_center_col):
-        if m_0_0:
-            m_0_0 = float(m_0_0)
-            m_2_0 = float(m_2_0)
-            m_0_2 = float(m_0_2)
-            m_1_1 = float(m_1_1)
-            gravity_center_row = float(gravity_center_row)
-            gravity_center_col = float(gravity_center_col)
-
-            a = (m_2_0 / m_0_0) - np.power(gravity_center_row, 2)
-            b = 2.0 * ((m_1_1 / m_0_0) - (gravity_center_row * gravity_center_col))
-            c = (m_0_2 / m_0_0) - np.power(gravity_center_col, 2)
-            theta = 0.5 * np.arctan2(b, (a - c))
-            l = np.sqrt(8.0 * (a + c + np.sqrt((b**2) + ((a - c)**2))))
-            w = np.sqrt(8.0 * (a + c - np.sqrt((b**2) + ((a - c)**2))))
-            return [theta, l, w]
-        else:
-            return [0,0,0]
-
 def create_color_image_from_labeled(labeled_img):
+    '''
+    We convert a labeled image (image obtained after applying the ConnectedComponents
+    algorithm) into a colored image.
+
+    Args:
+        labeled_img: Image where each pixel contains a number that identifies certain
+        class. All the pixels that belongs to the same class (i.e., have the same
+        value) will be painted with the same color.
+
+    Returns:
+        RGB image where all the pixels that belong to the same class are painted
+        with the same color.
+    '''
+    # We create a color image: It will have the same size as the input image, but
+    # it will contain 3 channels
     output = np.zeros(labeled_img.shape + (3,), dtype=np.uint8)
+    # We determine the amount of labels in the image. We add one since the for loop
+    # does not consider the last element
     amount_labels = np.max(labeled_img) + 1
 
+    # We determine how many colors we imported from the module colors.py
     amount_colors = len(hsv_label_colors)
     print("There are {} labels".format(amount_labels))
 
+    # We label all the pixels. For all the labels, we assign the same colors to
+    # the pixels that have the same label.
     for i in range(1, amount_labels):
+        # We determine the color to use. If we have more labels than colors,
+        # we restart the counter, i.e., different classes will have the same
+        # color, but since they will be far away one each other, it will be
+        # easy to identify them
         idx = i % amount_colors
         output[labeled_img == i] = hsv_label_colors[idx]
 
+    # Since the assigned colors are in HSV space, we convert them into BGR
+    # system to show the image in OpenCV
     return cv2.cvtColor(output, cv2.COLOR_HSV2BGR)
 
 def convert_into_binary(labeled_img):
+    '''
+    We convert the labeled image into binary again. In this case, any value
+    that is not zero, have to be set to 1.
+
+    Args:
+        labeled: Image labeled using the connected components algorithm. Each
+            pixel contains an integer number that identifies the class to which
+            it belongs to. 0 is the background always.
+
+    Returns:
+        Binary image, with only 0s and 1s.
+    '''
+    # We create an image with zeros only, and with the same size as the input image.
     output = np.zeros(labeled_img.shape, dtype=np.uint8)
+    # We set to 1 all the pixels that are not background.
     output[labeled_img != 0] = 1
     return output
 
 def get_particles_params(labeled_img):
+    '''
+    Create particle objects for each binary object in the image. Each object
+    contains the parameters of the given particle.
+
+    Args:
+        labeled: Image labeled using the connected components algorithm. Each
+            pixel contains an integer number that identifies the class to which
+            it belongs to. 0 is always the background.
+
+    Returns:
+        Array with as many particles as classes in the labeled image. Each
+        element in this array contains all the computed parameters of the particle.
+    '''
+    # We create an empty list where we will store all the parameters.
     particles = []
+    # We store in the variable the amount of labels present in the image.
     amount_labels = np.amax(labeled_img) + 1
+    # We convert the image to a numpy array, to be sure that we count with the
+    # indexing property of numpy arrays
     np_img = np.array(labeled_img)
 
+    # For each class, we extract which pixels belongs to the given class, and
+    # we create a particle object, that we store in our list called "particles"
     for class_id in range(1, amount_labels):
         obj = np.array(np.where(np_img == class_id))
         my_particle = Particle(class_id, obj, np_img.shape)
@@ -165,58 +97,102 @@ def get_particles_params(labeled_img):
     return particles
 
 def show_particles_animation(particles):
+    '''
+    Animation that shows particle by particle, with the equivalent ellipse
+    corresponding to that particle. Pressing any key will make the animation
+    to swtich to the next particle. When all the particles have been shown,
+    it restarts showing the first one. If we press Q or q, the animation exits.
+
+    Args:
+        particles: Array with all the particles computed in the image.
+    '''
     index = 1
     key = -1
+    # We create a named window where we will show the animation
     cv2.namedWindow('Animation', cv2.WINDOW_NORMAL)
+    # These are the angles used to plot the ellipse. Since we want the entire ellipse
+    # to be shown, we go from 0 until 360 degrees.
     startAngle = 0
     endAngle = 360
 
+    # We repeat the loop while we do not press any key, or until the entered key is q or Q.
     while key == -1 or (chr(key) != 'q' and chr(key) != 'Q'):
+        # We get the particle that corresponds to the index i
         part = particles[index]
+        # WE create an empty image, filled with zeros, and with 3 channels
         binary = np.zeros(part.image_size + (3,), dtype=np.uint8)
+        # We set a white color to all the points that belong to this particle.
         binary[part.particle_points[0,:], part.particle_points[1,:]] = (255, 255, 255)
 
-        diameter = 2.0 * np.sqrt(part.area / np.pi)
-        axesLength = (int(part.ellipse[1]), int(part.ellipse[2]))
+        # diameter = 2.0 * np.sqrt(part.area / np.pi)
+        # We create a tuple with the major and minor axis of the ellipse. Note
+        # that both values have to be integer values.
+        axesLength = (int(part.ellipse[1] / 2.0), int(part.ellipse[2] / 2.0))
 
+        # We create a tuple with the coordinates of the center of the ellipse,
+        # in XY system (not in ij).Note that both values have to be integer values.
         center = (int(part.mass_center_col), int(part.mass_center_row))
 
+        # We create a variable with the angle of the ellipse, in degrees.
         angle = part.ellipse[0] * 180.0 / np.pi
+        # We plot the ellipse in the binary image, centered in "center", with the
+        # major and minor axis given by "axesLength", rotated "angle" degrees,
+        # from 0 until 360 degrees.
         binary = cv2.ellipse(binary, center, axesLength,
                angle, startAngle, endAngle, (0,255,0), thickness=1)
 
+        # We show the image
         cv2.imshow('Animation', binary)
+        # We see the user response
         key = cv2.waitKey()
 
         index += 1
         if index >= len(particles):
             index = 1
 
-        time.sleep(0.3)
-    print("Exiting from while loop")
     cv2.destroyAllWindows()
 
 def main():
+    '''
+    Main function of this Python script.
+
+    This example loads a labeled image of several liquid metal particles. Then,
+    we compute several parameters of these particles, and we are able to filter
+    them, based on certain criterias over those parameters.
+    '''
+    # We define our image filepath
     labeled_img_filepath = os.path.join(root_dir, 'images', 'labeled_metal_2.png')
+    # We load our image as a grayscale image
     labeled_img = cv2.imread(labeled_img_filepath, cv2.IMREAD_GRAYSCALE | cv2.IMREAD_ANYDEPTH)
     # We check if imread was able to find and open the image.
     if labeled_img is None:
         print("We couldn't load the image located at {}".format(labeled_img_filepath))
         return
 
+    # We convert our image into binary to show it.
     binary = convert_into_binary(labeled_img)
+    # We split the image into Particles, and we compute the different parameters of them
     particles = get_particles_params(labeled_img)
 
-    show_particles_animation(particles)
+    # # We show an animation of the particles
+    # show_particles_animation(particles)
 
+    # FILTERING: We create a binary image in which we will add only the particles
+    # that comply with certain criterias
     filtered_image = np.zeros(binary.shape, dtype=np.uint8)
 
+    # We define some variables for the criterias:
+    ## Orientations: min and max
     min_angle = 30.0 * np.pi / 180.0
     max_angle = 70.0 * np.pi / 180.0
+    # Area: Min and max
     min_area = 170
     max_area = 510
+    # Elongation: min and max
     min_elongation = 8
     max_elongation = 50
+
+    # We search in all the particles, and we check if they comply with the different criterias
     for part in particles:
         # # Filter 1: Filter by area
         # if part.area < max_area and part.area > min_area:
@@ -238,6 +214,7 @@ def main():
             filtered_image[part.particle_points[0,:], part.particle_points[1,:]] = 1
             part.print_particle_params()
 
+    ################### We show the original binary image, and the filtered image ##################
     gl_window_name = 'Binary image'
     cv2.namedWindow(gl_window_name, cv2.WINDOW_NORMAL)
     cv2.imshow(gl_window_name, 255 * binary)
