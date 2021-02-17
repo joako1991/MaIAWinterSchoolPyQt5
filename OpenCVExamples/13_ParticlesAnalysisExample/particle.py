@@ -1,4 +1,5 @@
 import numpy as np
+import cv2
 
 '''
 This class holds all the requirements to compute the particles parameters, and
@@ -203,8 +204,10 @@ class Particle(object):
             b = 2.0 * (m_1_1 / m_0_0)
             c = m_0_2 / m_0_0
 
-            # We compute the different parameters as it is stated in the paper
-            theta = np.arctan2(b, (a - c))
+            # We compute the different parameters as it is stated in the paper.
+            # We invert C and A since they are taken in the XY system, and our
+            # moments are computed in the IJ system
+            theta = 0.5 * np.arctan2(b, (c - a))
             l = np.sqrt(8.0 * (a + c + np.sqrt((b**2) + ((a - c)**2))))
             w = np.sqrt(8.0 * (a + c - np.sqrt((b**2) + ((a - c)**2))))
             return [theta, l, w]
