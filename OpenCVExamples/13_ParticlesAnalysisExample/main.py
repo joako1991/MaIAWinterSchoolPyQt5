@@ -124,9 +124,10 @@ def show_particles_animation(particles):
         # We set a white color to all the points that belong to this particle.
         binary[part.particle_points[0,:], part.particle_points[1,:]] = (255, 255, 255)
 
-        # diameter = 2.0 * np.sqrt(part.area / np.pi)
         # We create a tuple with the major and minor axis of the ellipse. Note
-        # that both values have to be integer values.
+        # that both values have to be integer values. NOTE: the opencv function
+        # expects each axis length to be the half of the size of the ellipse main axes,
+        # that's why we divide them by 2
         axesLength = (int(part.ellipse[1] / 2.0), int(part.ellipse[2] / 2.0))
 
         # We create a tuple with the coordinates of the center of the ellipse,
@@ -135,11 +136,12 @@ def show_particles_animation(particles):
 
         # We create a variable with the angle of the ellipse, in degrees.
         angle = part.ellipse[0] * 180.0 / np.pi
+
         # We plot the ellipse in the binary image, centered in "center", with the
         # major and minor axis given by "axesLength", rotated "angle" degrees,
         # from 0 until 360 degrees.
         binary = cv2.ellipse(binary, center, axesLength,
-               angle, startAngle, endAngle, (0,255,0), thickness=1)
+               angle, startAngle, endAngle, (255,0,0), thickness=1)
 
         # We show the image
         cv2.imshow('Animation', binary)
@@ -175,7 +177,7 @@ def main():
     particles = get_particles_params(labeled_img)
 
     # # We show an animation of the particles
-    # show_particles_animation(particles)
+    show_particles_animation(particles)
 
     # FILTERING: We create a binary image in which we will add only the particles
     # that comply with certain criterias
