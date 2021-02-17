@@ -2,49 +2,9 @@ import cv2
 import os
 
 import numpy as np
-from colors import hsv_label_colors
 from particle import Particle
 
 root_dir = os.path.dirname(os.path.realpath(__file__))
-
-def create_color_image_from_labeled(labeled_img):
-    '''
-    We convert a labeled image (image obtained after applying the ConnectedComponents
-    algorithm) into a colored image.
-
-    Args:
-        labeled_img: Image where each pixel contains a number that identifies certain
-        class. All the pixels that belongs to the same class (i.e., have the same
-        value) will be painted with the same color.
-
-    Returns:
-        RGB image where all the pixels that belong to the same class are painted
-        with the same color.
-    '''
-    # We create a color image: It will have the same size as the input image, but
-    # it will contain 3 channels
-    output = np.zeros(labeled_img.shape + (3,), dtype=np.uint8)
-    # We determine the amount of labels in the image. We add one since the for loop
-    # does not consider the last element
-    amount_labels = np.max(labeled_img) + 1
-
-    # We determine how many colors we imported from the module colors.py
-    amount_colors = len(hsv_label_colors)
-    print("There are {} labels".format(amount_labels))
-
-    # We label all the pixels. For all the labels, we assign the same colors to
-    # the pixels that have the same label.
-    for i in range(1, amount_labels):
-        # We determine the color to use. If we have more labels than colors,
-        # we restart the counter, i.e., different classes will have the same
-        # color, but since they will be far away one each other, it will be
-        # easy to identify them
-        idx = i % amount_colors
-        output[labeled_img == i] = hsv_label_colors[idx]
-
-    # Since the assigned colors are in HSV space, we convert them into BGR
-    # system to show the image in OpenCV
-    return cv2.cvtColor(output, cv2.COLOR_HSV2BGR)
 
 def convert_into_binary(labeled_img):
     '''
