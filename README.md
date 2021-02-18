@@ -23,7 +23,8 @@ In order to execute any of these examples, we move to the folder that holds the
 example we want, and we execute: ```python3 ./main.py```
 
 # Requirements
-* Python3
-* OpenCV for Python3
-* PyQt5 for Python3
-* NumPy for Python3
+python3 -m pip install pip --upgrade
+python3 -m pip install opencv-python
+python3 -m pip install pyqt5==5.12
+python3 -m pip install numpy
+python3 -m pip install matplotlib
