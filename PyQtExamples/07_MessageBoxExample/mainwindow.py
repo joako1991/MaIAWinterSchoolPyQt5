@@ -15,7 +15,7 @@ class MainWindow(QMainWindow):
         from the beginning of the class, we know all the variables that belongs
         to the class. If not, we have to read all the code in order to know, and
         if we read the variable and it has not been created yet, the program will
-        crash.        
+        crash.
         '''
         super(MainWindow, self).__init__(parent)
 
@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
         '''
         ## Here you start initializing your widgets
         self.add_button()
-    
+
         # Add the widgets that we want to add to the MainWindow must be added
         # before this line
         self.set_main_window_layouts()
