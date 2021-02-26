@@ -16,4 +16,4 @@ into OpenCV images, in order to show them. This example can be useful to represe
 Histograms, or LUT functions.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/GraphPlotsExample/images/GraphPlotsExample.png)
+![app screenshot](/PyQtExamples/14_GraphPlotsExample/images/GraphPlotsExample.png)

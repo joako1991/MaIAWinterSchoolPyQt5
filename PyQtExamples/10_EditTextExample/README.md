@@ -14,4 +14,4 @@ for instance, and the user cannot modify it. This can be done if we set the QLin
 object as read-only.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/EditTextExample/images/lineEditExample.png)
+![app screenshot](/PyQtExamples/10_EditTextExample/images/lineEditExample.png)

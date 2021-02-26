@@ -4,4 +4,4 @@ This way, we can copy this template, and add the little things we need in
 order to create the different examples
 
 # Application screenshot
-![app screenshot](/PyQtExamples/TemplateExample/images/TemplateMainWindow.png)
+![app screenshot](/PyQtExamples/00_TemplateExample/images/TemplateMainWindow.png)

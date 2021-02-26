@@ -6,4 +6,4 @@ changes, a function is called, that in this example, it prints a message
 with the actual value of the slider.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/SlideBarExample/images/SlideBarImage.png)
+![app screenshot](/PyQtExamples/03_SlideBarExample/images/SlideBarImage.png)

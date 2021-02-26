@@ -17,4 +17,4 @@ In this example, we show how to create the QTextEdit object, how to add text
 by code, change the mode to read-only, and add it to the layout.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/TextEditExample/images/TextEditExample.png)
+![app screenshot](/PyQtExamples/11_TextEditExample/images/TextEditExample.png)

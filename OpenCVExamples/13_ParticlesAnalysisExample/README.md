@@ -11,10 +11,10 @@ these criterias, we show 4 different ways to filter.
 At the end, we show the result of this filtering.
 # Application screenshot
 # Filtering by area
-![app screenshot](/13_ParticlesAnalysisExample/images/AreaFiltering.png)
+![app screenshot](/OpenCVExamples/13_ParticlesAnalysisExample/images/AreaFiltering.png)
 # Filtering by Elongation
-![app screenshot](/13_ParticlesAnalysisExample/images/ElongationFiltering.png)
+![app screenshot](/OpenCVExamples/13_ParticlesAnalysisExample/images/ElongationFiltering.png)
 # Filtering by Area and Elongation
-![app screenshot](/13_ParticlesAnalysisExample/images/ElongationAndAreaFiltering.png)
+![app screenshot](/OpenCVExamples/13_ParticlesAnalysisExample/images/ElongationAndAreaFiltering.png)
 # Filtering by Area, Elongation and orientation
-![app screenshot](/13_ParticlesAnalysisExample/images/ElongatioAreaOrientationFiltering.png)
+![app screenshot](/OpenCVExamples/13_ParticlesAnalysisExample/images/ElongatioAreaOrientationFiltering.png)

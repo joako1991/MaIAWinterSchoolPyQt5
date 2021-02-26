@@ -12,4 +12,4 @@ enabling / disabling function, which has always the same name: setEnabled.
 
 
 # Application screenshot
-![app screenshot](/PyQtExamples/EnablingDisablingWidgets/images/EnablingDisabling.png)
+![app screenshot](/PyQtExamples/05_EnablingDisablingWidgets/images/EnablingDisabling.png)

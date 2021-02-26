@@ -16,6 +16,6 @@ image files.
 When we want to open only one file, we use the open file part only.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/OpenFilesExample/images/MainWIndow.png)
-![app screenshot](/PyQtExamples/OpenFilesExample/images/DirectorySearch.png)
-![app screenshot](/PyQtExamples/OpenFilesExample/images/FileSearch.png)
+![app screenshot](/PyQtExamples/08_OpenFilesExample/images/MainWIndow.png)
+![app screenshot](/PyQtExamples/08_OpenFilesExample/images/DirectorySearch.png)
+![app screenshot](/PyQtExamples/08_OpenFilesExample/images/FileSearch.png)

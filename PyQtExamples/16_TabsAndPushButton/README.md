@@ -22,4 +22,4 @@ regardless the tab we choose. For instance, we might want to have the exit
 button all the time, regardless in which tab we are in.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/TabsAndPushButton/images/TabsExample.png)
+![app screenshot](/PyQtExamples/16_TabsAndPushButton/images/TabsExample.png)

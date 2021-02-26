@@ -12,4 +12,4 @@ name as an existing one, we want the user to confirm that he will overwrite
 the old file.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/MessageBoxExample/images/MessageBoxExample.png)
+![app screenshot](/PyQtExamples/07_MessageBoxExample/images/MessageBoxExample.png)

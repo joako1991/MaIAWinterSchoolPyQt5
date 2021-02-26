@@ -20,4 +20,4 @@ and we update the shown image. As a result, we have a real-time like plot,
 that evolves with the time.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/TimerAndGraphPlotsExample/images/GraphEvolutionExample.png)
+![app screenshot](/PyQtExamples/15_TimerAndGraphPlotsExample/images/GraphEvolutionExample.png)

@@ -19,4 +19,4 @@ We also include two buttons, one to insert each phrase, and one to erase all the
 previously inserted texts.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/TextEditAndButtonsExample/images/TextEditWithButtonsExample.png)
+![app screenshot](/PyQtExamples/12_TextEditAndButtonsExample/images/TextEditWithButtonsExample.png)

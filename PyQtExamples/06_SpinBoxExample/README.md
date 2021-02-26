@@ -18,4 +18,4 @@ decimal numbers (QDoubleWidget). Depending on your requirements, you can use
 one of the other one, but the basis is the same for both of them.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/SpinBoxExample/images/SpinBoxExample.png)
+![app screenshot](/PyQtExamples/06_SpinBoxExample/images/SpinBoxExample.png)

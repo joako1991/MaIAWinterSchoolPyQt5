@@ -18,4 +18,4 @@ will be emitted. We connected this signal to a function, that changes the value 
 the label each time, showing the value of a counter variable.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/TimerAndLabelExample/images/TimerAndLabelScreenshot.png)
+![app screenshot](/PyQtExamples/04_TimerAndLabelExample/images/TimerAndLabelScreenshot.png)

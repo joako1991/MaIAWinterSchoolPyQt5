@@ -12,4 +12,4 @@ In this example, we set some text to the labels only. Of course, this text can b
 later on in the code.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/00_LabelExample/images/labelsExample.png)
+![app screenshot](/PyQtExamples/02_LabelExample/images/labelsExample.png)
