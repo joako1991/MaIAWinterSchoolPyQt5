@@ -65,7 +65,7 @@ class SliderWithLabel(QWidget):
 
         # We create a label that contains the actual slider value.
         # We initialize it in zero
-        self.tick_label = QLabel('{}'.format(min_val))
+        self.tick_label = QLabel('{}'.format(self.slide_bar.value()))
 
         # We place the slider and below it, the label
         layout = QVBoxLayout()
