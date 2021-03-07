@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         from the beginning of the class, we know all the variables that belongs
         to the class. If not, we have to read all the code in order to know, and
         if we read the variable and it has not been created yet, the program will
-        crash.        
+        crash.
         '''
         super(MainWindow, self).__init__(parent)
 
@@ -62,7 +62,11 @@ class MainWindow(QMainWindow):
         '''
         # We create scroll area to allows to slide the window, when the screen
         # size is not enough
-        main_scroll = QScrollArea()
+        left_scroll = QScrollArea()
+        right_scroll = QScrollArea()
+
+        left_scroll.setWidgetResizable(True)
+        right_scroll.setWidgetResizable(True)
 
         # The MainWindow is splitted into two areas, left and right, each of them
         # with the corresponding layouts
@@ -71,18 +75,16 @@ class MainWindow(QMainWindow):
         main_widget = QWidget()
 
         left_widget.setLayout(self.left_layout)
+        left_scroll.setWidget(left_widget)
         self.right_layout.addStretch(1)
         right_widget.setLayout(self.right_layout)
+        right_scroll.setWidget(right_widget)
 
-        self.main_layout.addWidget(left_widget)
-        self.main_layout.addStretch(1)
-        self.main_layout.addWidget(right_widget)
+        self.main_layout.addWidget(left_scroll)
+        self.main_layout.addWidget(right_scroll)
         main_widget.setLayout(self.main_layout)
 
-        main_scroll.setWidget(main_widget)
-        main_scroll.setWidgetResizable(True)
-
-        self.setCentralWidget(main_scroll)
+        self.setCentralWidget(main_widget)
 
     def create_tab_widget(self, button_name, label_text, callback):
         '''

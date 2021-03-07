@@ -58,9 +58,13 @@ class MainWindow(QMainWindow):
         For that, two layouts exists in the program: self.left_layout and
         self.right_layout.
         '''
-        # We create scroll area to allows to slide the window, when the application
-        # size is not enough for the given screen resolution
-        main_scroll = QScrollArea()
+        # We create scroll area to allows to slide the window, when the screen
+        # size is not enough
+        left_scroll = QScrollArea()
+        right_scroll = QScrollArea()
+
+        left_scroll.setWidgetResizable(True)
+        right_scroll.setWidgetResizable(True)
 
         # The MainWindow is splitted into two areas, left and right, each of them
         # with the corresponding layouts
@@ -69,17 +73,16 @@ class MainWindow(QMainWindow):
         main_widget = QWidget()
 
         left_widget.setLayout(self.left_layout)
+        left_scroll.setWidget(left_widget)
         self.right_layout.addStretch(1)
         right_widget.setLayout(self.right_layout)
+        right_scroll.setWidget(right_widget)
 
-        self.main_layout.addWidget(left_widget)
-        self.main_layout.addWidget(right_widget)
+        self.main_layout.addWidget(left_scroll)
+        self.main_layout.addWidget(right_scroll)
         main_widget.setLayout(self.main_layout)
 
-        main_scroll.setWidget(main_widget)
-        main_scroll.setWidgetResizable(True)
-
-        self.setCentralWidget(main_scroll)
+        self.setCentralWidget(main_widget)
 
     def add_image_widget(self):
         '''
