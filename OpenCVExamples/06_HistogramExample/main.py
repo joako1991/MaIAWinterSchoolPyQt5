@@ -38,7 +38,7 @@ def alternative_histogram_computation(img):
             # We compute the histogram using the NumPy function. bins is the
             # range, or list of values that corresponds to the possible gray-levels
             # in the image.
-            myHist = np.histogram(img, bins=range(amount_bins))
+            myHist = np.histogram(img, bins=range(amount_bins+1))
             # We return the first element, which corresponds to the histogram.
             # The second element of this list is the array with the bins of the
             # histogram
