@@ -1,4 +1,4 @@
-# Image Processing - Introduction to Image Processing - IUT
+# Graphical User Interface examples, by using Python and PyQt5
 This repository contains several examples of code in Python, for the libraries OpenCV and PyQt.
 OpenCV will be useful to open images, treat them, change them from one color space to another one, show them, and more.
 PyQt is a framework that allow us, in a very structured way, to create user interfaces.
@@ -12,7 +12,7 @@ The two main folders are:
     In all the cases, we have the basic mainwindow class, and a specific application:
         A button, a label, an show image, slide bar, spinbox.
 
-Each example contains a little readme examplaing how it works,
+Each example contains a little readme explaining how it works,
 with a screenshot of the application you should see. This will help you to
 know quickly if that example works for you or not.
 

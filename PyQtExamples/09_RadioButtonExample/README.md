@@ -15,4 +15,4 @@ On each toggle (from on to off, or from off to on), the corresponding callback
 is called.
 
 # Application screenshot
-![app screenshot](/PyQtExamples/09_09_RadioButtonExample/images/RadioButtonExample.png)
+![app screenshot](/PyQtExamples/09_RadioButtonExample/images/RadioButtonExample.png)

@@ -16,4 +16,4 @@ when we click, we emit a signal that tells the pixel position, and the
 ID of which image we clicked).
 
 # Application screenshot
-![app screenshot](/PyQtExamples/ShowImageExample/images/ShowImageExample.png)
+![app screenshot](/PyQtExamples/13_ShowImageExample/images/ShowImageExample.png)
